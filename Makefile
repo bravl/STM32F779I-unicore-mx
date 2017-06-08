@@ -82,7 +82,10 @@ LDFLAGS += -Xlinker -Map -Xlinker $(PROJECT).map
 ################
 # Build rules
 
-all: $(PROJECT).hex
+all: unicore $(PROJECT).hex
+
+unicore:
+	make -C unicore-mx/
 
 $(PROJECT).hex: $(PROJECT).elf
 	$(OBJCOPY) -O ihex $(PROJECT).elf $(PROJECT).hex
