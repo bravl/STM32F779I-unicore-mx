@@ -7,30 +7,27 @@ PROJECT = STM_Eval
 ################
 # Sources
 
-SOURCES_S = Drivers/CMSIS/Device/ST/STM32F7xx/Source/Templates/gcc/startup_stm32f779xx.s
-
-SOURCES_C = src/main.c
+#SOURCES_S = Drivers/CMSIS/Device/ST/STM32F7xx/Source/Templates/gcc/startup_stm32f779xx.s
 
 # Uncomment when not using semihosting
-#SOURCES_C = $(shell find src/ -name "*.c")
+SOURCES_C = $(shell find src/ -name "*.c")
 
 #SOURCES_C += sys/stubs.c sys/_sbrk.c sys/_io.c
-SOURCES_C += Drivers/CMSIS/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c
-SOURCES_C += Drivers/BSP/STM32F769I_EVAL/stm32f769i_eval.c
-SOURCES_C += Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
-SOURCES_C += Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.c
+#SOURCES_C += Drivers/CMSIS/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c
+#SOURCES_C += Drivers/BSP/STM32F769I_EVAL/stm32f769i_eval.c
+#SOURCES_C += Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
+#SOURCES_C += Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.c
 
 SOURCES = $(SOURCES_S) $(SOURCES_C)
 OBJS = $(SOURCES_S:.s=.o) $(SOURCES_C:.c=.o)
+OBJS += unicore-mx/lib/libucmx_stm32f7.a
 
 ################
 # Includes and Defines
 
 INCLUDES += -I src
-INCLUDES += -I Drivers/CMSIS/Include
-INCLUDES += -I Drivers/CMSIS/Device/ST/STM32F7xx/Include
-INCLUDES += -I Drivers/STM32F7xx_HAL_Driver/Inc
-INCLUDES += -I Drivers/BSP/STM32F769I_EVAL
+INCLUDES += -I unicore-mx/include/
+INCLUDES += -I unicore-mx/lib/
 
 DEFINES = -DSTM32 -DSTM32F7 -DSTM32F779xx
 
