@@ -11,15 +11,19 @@ PROJECT = STM_Eval
 
 # Uncomment when not using semihosting
 SOURCES_C = $(shell find src/ -name "*.c")
-
+FREERTOS_C = $(shell find FreeRTOS/Source/ -name "*.c" -not -path "*/portable/*" -not -path "*/CMSIS_RTOS/*")
+$(info $(FREERTOS_C))
+FREERTOS_C += FreeRTOS/Source/portable/MemMang/heap_3.c
+FREERTOS_C += FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/port.c
+FREERTOS_C += FreeRTOS/Source/portable/Common/mpu_wrappers.c
 #SOURCES_C += sys/stubs.c sys/_sbrk.c sys/_io.c
 #SOURCES_C += Drivers/CMSIS/Device/ST/STM32F7xx/Source/Templates/system_stm32f7xx.c
 #SOURCES_C += Drivers/BSP/STM32F769I_EVAL/stm32f769i_eval.c
 #SOURCES_C += Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.c
 #SOURCES_C += Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.c
 
-SOURCES = $(SOURCES_S) $(SOURCES_C)
-OBJS = $(SOURCES_S:.s=.o) $(SOURCES_C:.c=.o)
+SOURCES = $(SOURCES_S) $(SOURCES_C) $(FREERTOS_C)
+OBJS = $(SOURCES_S:.s=.o) $(SOURCES_C:.c=.o) $(FREERTOS_C:.c=.o)
 OBJS += unicore-mx/lib/libucmx_stm32f7.a
 
 ################
@@ -28,6 +32,8 @@ OBJS += unicore-mx/lib/libucmx_stm32f7.a
 INCLUDES += -I src
 INCLUDES += -I unicore-mx/include/
 INCLUDES += -I unicore-mx/lib/
+INCLUDES += -I FreeRTOS/Source/include/
+INCLUDES += -I FreeRTOS/Source/portable/GCC/ARM_CM7/r0p1/
 
 DEFINES = -DSTM32 -DSTM32F7 -DSTM32F779xx
 
